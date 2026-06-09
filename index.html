@@ -3,82 +3,46 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chúc Mừng Sinh Nhật Bé!</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-<div id="heart-container"></div>
-<!-- đăng nhập -->
-<div id="login-screen" class="section">
-    <div class="login-container">
-        <div class="login-left">
-            <div class="image-frame">
-                <img src="image/13.jpg" alt="Hint Image">
-            </div>
-            <div class="hint-box">
-                <p>💡 Gợi ý: ngày tháng sinh của một người xinh đẹp </p>
-            </div>
-        </div>
+    <div id="heart-container"></div>
 
-        <div class="login-right">
-            <h2>Mật mã yêu thương</h2>
-            <div class="password-display">
-                <input type="password" id="password" readonly placeholder="****">
-            </div>
 
-            <div class="numpad">
-                <button onclick="appendNum(1)">1</button>
-                <button onclick="appendNum(2)">2</button>
-                <button onclick="appendNum(3)">3</button>
-                <button onclick="appendNum(4)">4</button>
-                <button onclick="appendNum(5)">5</button>
-                <button onclick="appendNum(6)">6</button>
-                <button onclick="appendNum(7)">7</button>
-                <button onclick="appendNum(8)">8</button>
-                <button onclick="appendNum(9)">9</button>
-                <button class="btn-clear" onclick="clearPass()">C</button>
-                <button onclick="appendNum(0)">0</button>
-                <button class="btn-go" onclick="checkPassword()">OK</button>
-            </div>
-            <p id="error-msg" class="error">Sai rồi nhé! ❌</p>
-        </div>
-    </div>
-</div>
-
-<!-- trang 2 -->
-    <div id="gallery-screen" class="section hidden">
-        <div id="photo-wall"></div>
-        <div class="book-container">
-            <div class="book" onclick="this.classList.toggle('open')">
-                <div class="book-page-right">
-                    <h3>Happy Birthday! 🎂</h3>
-                    <div class="letter-content">
-                        <p>Gửi em thân yêu,</p>
-                        <p>Thêm một tuổi mới, chúc em luôn rạng rỡ và hạnh phúc...</p>
-                        <p>Yêu em rất nhiều!</p>
-                    </div>
-                    <button class="next-btn" onclick="showCake(event)">Xem bất ngờ cuối ➔</button>
+    <div id="login-screen" class="section">
+        <div class="login-container">
+            <div class="login-left">
+                <div class="image-frame-neon">
+                    <img src="image/13.jpg" alt="Hint" id="login-hint-img">
                 </div>
+                <p class="hint-text">Mừng sinh nhật bông hoa xinhh đẹp nhất của anhh 🌷</p>
+            </div>
     
-                <div class="book-page-left">
-                    <img src="image/16.jpg" alt="Kỷ niệm">
+            <div class="login-right">   
+                <h3 class="login-title">💡Mật khẩu có 4 số</h3>
+                <input type="password" id="password" readonly placeholder="4 số này rất đặt biệt áaaa">
+                <div class="numpad">
+                    <button onclick="appendNum(1)">1</button><button onclick="appendNum(2)">2</button><button
+                        onclick="appendNum(3)">3</button>
+                    <button onclick="appendNum(4)">4</button><button onclick="appendNum(5)">5</button><button
+                        onclick="appendNum(6)">6</button>
+                    <button onclick="appendNum(7)">7</button><button onclick="appendNum(8)">8</button><button
+                        onclick="appendNum(9)">9</button>
+                    <button onclick="clearPass()">C</button><button onclick="appendNum(0)">0</button><button
+                        onclick="checkPassword()">OK</button>
                 </div>
-    
-                <div class="book-cover">
-                    <img src="image/8.jpg" alt="Bìa sách">
-                    <div class="cover-title">Gửi Thiên Thần Của Anh 💖</div>
-                </div>
+                <p id="login-error" class="error-text hidden">Sai mất rùi🐣 Bé nghĩ lại kĩ điiii !</p>
             </div>
-            <p class="instruction-text">Chạm vào sách để mở ra nhé...</p>
         </div>
     </div>
 
-<!-- thổi nến -->
+
     <div id="cake-screen" class="section hidden">
         <div class="cake-container">
             <div class="cake">
-                <div class="plate"></div>
                 <div class="layer layer-bottom"></div>
                 <div class="layer layer-middle"></div>
                 <div class="layer layer-top"></div>
@@ -86,12 +50,60 @@
                     <div class="flame"></div>
                 </div>
             </div>
-            <h2 id="instruction">Hãy thổi nến đi! 🕯️</h2>
+            <h2 id="instruction"> Bé ước rùi thôi mạnh vào bánh nhé 💨🎂</h2>
+            <button id="btn-to-book" class="next-btn hidden" onclick="showBook()">Mở quà của anh nè ➔</button>
         </div>
     </div>
 
-    <audio id="bg-music" src="happy-birthday.mp3" loop></audio>
 
+    <div id="gallery-screen" class="section hidden">
+        <div class="book-container">
+            <div class="book">
+                <div class="page" id="p1" onclick="flipPage(1)">
+                    <div class="front cover">
+                        <img src="image/8.jpg" alt="Bìa">
+                        <div class="cover-title">Gửi Thiên Thần 💖</div>
+                    </div>
+                    <div class="back"><img src="image/1.jpg" alt="Ảnh 1"></div>
+                </div>
+                <div class="page" id="p2" onclick="flipPage(2)">
+                    <div class="front"><img src="image/16.jpg" alt="Ảnh 2"></div>
+                    <div class="back letter-page">
+                        <div class="letter-content">
+                            <h3>Happy Birthday!</h3>
+                            <p>Chúc em tuổi mới luôn rạng rỡ và hạnh phúc bên anh nhé!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" id="p3" onclick="flipPage(3)">
+                    <div class="front"><img src="image/2.jpg" alt="Ảnh 3"></div>
+                    <div class="back"><img src="image/3.jpg" alt="Ảnh 4"></div>
+                </div>
+                <div class="page" id="p4" onclick="flipPage(4)">
+                    <div class="front"><img src="image/4.jpg" alt="Ảnh 5"></div>
+                    <div class="back cover">
+                        <h3>Vẫn chưa hết đâu! 😍</h3>
+                        <button class="next-btn" onclick="showFinalSurprise(event)">Xem điều bất ngờ ➔</button>
+                    </div>
+                </div>
+            </div>
+            <p class="guide">Chạm vào trang sách để lật...</p>
+        </div>
+    </div>
+
+
+<div id="final-surprise-screen" class="section hidden">
+    <div id="bg-heart-layer"></div>
+
+    <div id="photo-runner-container"></div>
+
+    <!-- <div class="final-overlay">
+        <h2 class="final-text">Yêu Em Rất Nhiều! 💖</h2>
+    </div> -->
+</div>
+
+
+    <audio id="bg-music" src="happy-birthday.mp3" loop></audio>
     <script src="script.js"></script>
 </body>
 

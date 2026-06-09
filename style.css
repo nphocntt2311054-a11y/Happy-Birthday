@@ -1,34 +1,25 @@
 /* =========================================================
-   CÀI ĐẶT CHUNG & DARK MODE
+   CÀI ĐẶT CHUNG VÀ NỀN TRÁI TIM (Áp dụng toàn web)
    ========================================================= */
 :root {
-    --bg-dark: #0a0a0a;
-    --pink-neon: #ff477e;
-    --pink-glow: rgba(255, 71, 126, 0.5);
+    --bg-dark: #0e0d0d;
+    --pink: #ff477e;
     --white: #ffffff;
-    --pink-light: #fff0f3;
-    /* Giữ lại cho các chi tiết nhỏ */
 }
 
 body {
     margin: 0;
+    padding: 0;
+    background: var(--bg-dark);
     font-family: 'Arial', sans-serif;
-    background-color: var(--bg-dark);
-    color: var(--white);
     height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
-/* Class ẩn trang cực kỳ quan trọng */
-.hidden {
-    display: none !important;
-}
-
+/* Khung chứa các trang */
 .section {
     position: absolute;
     width: 100%;
@@ -37,11 +28,15 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: opacity 0.5s ease;
     z-index: 5;
 }
 
-/* Lớp chứa các trái tim bay */
+/* Lệnh bắt buộc ẩn trang nếu có class .hidden */
+.hidden {
+    display: none !important;
+}
+
+/* Trái tim bay */
 #heart-container {
     position: fixed;
     top: 0;
@@ -50,15 +45,13 @@ body {
     height: 100%;
     pointer-events: none;
     z-index: 1;
-    /* Nằm dưới các section */
 }
 
 .heart {
     position: absolute;
-    color: var(--pink-neon);
+    color: var(--pink);
     animation: fly 10s linear infinite;
-    filter: drop-shadow(0 0 5px var(--pink-neon));
-    user-select: none;
+    filter: drop-shadow(0 0 5px var(--pink));
 }
 
 @keyframes fly {
@@ -81,131 +74,246 @@ body {
     }
 }
 
-/* =========================================================
-   TRANG 1: LOGIN (Glassmorphism)
-   ========================================================= */
+
+/* ========================================== */
+/* TRANG 1: ĐĂNG NHẬP (FINAL FIX)    */
+/* ========================================== */
+
+/* Container chính */
 .login-container {
     display: flex;
-    background: rgba(20, 20, 20, 0.8);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 71, 126, 0.3);
-    padding: 30px;
-    border-radius: 30px;
-    box-shadow: 0 0 30px var(--pink-glow);
-    gap: 40px;
-    max-width: 850px;
     width: 90%;
+    max-width: 800px;
+    background: rgba(15, 15, 15, 0.9);
+    border-radius: 30px;
+    padding: 40px;
+    align-items: center;
+    border: 2px solid #ff477e;
+    box-shadow: 0 0 25px rgba(255, 71, 126, 0.4);
+    backdrop-filter: blur(10px);
+    position: relative;
 }
 
+/* PHẦN ẢNH BÊN TRÁI */
 .login-left {
-    flex: 1;
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    flex: 6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding-right: 20px;
 }
 
-.image-frame {
-    width: 250px;
-    height: 250px;
-    border: 5px solid var(--pink-neon);
+.image-frame-neon {
+    width: 100%;
+    max-width: 320px;
+    /* Chỉnh lại kích thước vừa phải */
+    aspect-ratio: 1/1;
     border-radius: 20px;
     overflow: hidden;
-    transform: rotate(-3deg);
-    box-shadow: 0 0 15px var(--pink-glow);
+    border: 3px solid #ff477e;
+    box-shadow: 0 0 15px rgba(255, 71, 126, 0.6);
+    /* Giữ ảnh nghiêng nghệ thuật */
+    transform: rotate(-5deg);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    margin-bottom: 20px;
+    /* Tạo khoảng cách với chữ gợi ý */
 }
 
-.image-frame img {
+.image-frame-neon img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
+/* Hiệu ứng nảy khi click (Đã giữ nguyên) */
+.img-active {
+    animation: imgBounce 0.5s ease;
+}
+
+@keyframes imgBounce {
+    0% {
+        transform: rotate(-5deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(5deg) scale(1.1);
+    }
+
+    100% {
+        transform: rotate(-5deg) scale(1);
+    }
+}
+
+/* HIỆN LẠI CHỮ GỢI Ý */
+.hint-text {
+    color: #eee;
+    font-size: 0.9rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    margin-top: 10px;
+}
+
+/* ĐƯỜNG KẺ PHÂN CHIA Ở GIỮA */
+.login-right {
+    flex: 3;
+    padding-left: 30px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Tạo đường kẻ trắng mờ */
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* PHẦN MẬT MÃ */
+.login-title {
+    color: white;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+#password {
+    background: #222;
+    border: 1px solid #444;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 180px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* PHÍM SỐ TRÒN GIỮ NGUYÊN */
 .numpad {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
+    gap: 10px;
 }
 
 .numpad button {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     border: none;
     background: rgba(255, 255, 255, 0.1);
     color: white;
-    font-size: 1.2em;
     cursor: pointer;
     transition: 0.3s;
 }
 
 .numpad button:hover {
-    background: var(--pink-neon);
-    box-shadow: 0 0 15px var(--pink-neon);
+    background: #ff477e;
+    box-shadow: 0 0 10px #ff477e;
 }
 
+/* Style cho thông báo chúc mừng */
+.success-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(15, 15, 15, 0.95);
+    color: #ff477e;
+    padding: 30px 50px;
+    border-radius: 20px;
+    border: 2px solid #ff477e;
+    box-shadow: 0 0 30px rgba(255, 71, 126, 0.6);
+    z-index: 9999;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    backdrop-filter: blur(10px);
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+    0% {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+/* Fix lỗi thông báo sai bị trùng màu nền */
+#login-error {
+    color: #ff477e !important;
+    /* Ép màu đỏ rực */
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(255, 77, 77, 0.6);
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+/* Đảm bảo class hidden hoạt động triệt để */
+.hidden {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
 /* =========================================================
-   TRANG 2: SÁCH (Dark Version)
-   ========================================================= */
-.book {
-    width: 350px;
-    height: 450px;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.8s ease;
-}
-
-.book-cover,
-.book-page-left,
-.book-page-right {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 0 15px 15px 0;
-    backface-visibility: hidden;
-}
-
-.book-cover {
-    background: var(--pink-neon);
-    z-index: 10;
-    transform-origin: left;
-    transition: 1s;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.book-page-right {
-    background: #1a1a1a;
-    color: white;
-    padding: 30px;
-    z-index: 1;
-}
-
-.book.open .book-cover {
-    transform: rotateY(-180deg);
-}
-
-/* =========================================================
-   TRANG 3: BÁNH & NẾN
+   TRANG 2: GIAO DIỆN BÁNH KEM & NẾN
    ========================================================= */
 .cake {
-    width: 150px;
-    height: 100px;
-    background: #f08080;
-    border-radius: 10px;
     position: relative;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 40px;
+}
+
+.layer {
+    position: absolute;
+    background: #ff8fa3;
+    border-bottom: 4px solid #ff477e;
+    border-radius: 10px 10px 0 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.layer-bottom {
+    width: 150px;
+    height: 50px;
+    bottom: 0;
+}
+
+.layer-middle {
+    width: 120px;
+    height: 40px;
+    bottom: 50px;
+    background: #ffb3c1;
+}
+
+.layer-top {
+    width: 90px;
+    height: 30px;
+    bottom: 90px;
+    background: #ffccd5;
+}
+
+.candle {
+    position: absolute;
+    width: 8px;
+    height: 30px;
+    background: white;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .flame {
-    width: 15px;
-    height: 25px;
+    width: 12px;
+    height: 18px;
     background: orange;
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    border-radius: 50%;
     position: absolute;
-    top: -40px;
+    top: -20px;
     left: 50%;
     transform: translateX(-50%);
+    box-shadow: 0 0 10px orange;
     animation: flicker 0.1s infinite alternate;
-    box-shadow: 0 0 20px orange;
 }
 
 @keyframes flicker {
@@ -215,5 +323,255 @@ body {
 
     to {
         transform: translateX(-50%) scale(1.1);
+    }
+}
+/* Dòng hướng dẫn */
+#instruction {
+    color: white;
+    /* Đổi màu chữ thành trắng */
+    /* Nếu ông muốn chữ nổi bật hơn trên nền tối thì có thể thêm dòng text-shadow bên dưới, không thì bỏ qua nha */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+/* =========================================================
+   TRANG 3: GIAO DIỆN SÁCH LẬT KỶ NIỆM
+   ========================================================= */
+.book-container {
+    perspective: 1500px;
+}
+
+.book {
+    width: 300px;
+    height: 400px;
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+.page {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-origin: left;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+    cursor: pointer;
+}
+
+.front,
+.back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 0 15px 15px 0;
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.4);
+}
+
+.back {
+    transform: rotateY(180deg);
+    background: #fdfdfd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.page img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0 15px 15px 0;
+}
+
+.page.flipped {
+    transform: rotateY(-180deg);
+}
+
+/* Sắp xếp lớp cho 4 trang sách */
+#p1 {
+    z-index: 4;
+}
+
+#p2 {
+    z-index: 3;
+}
+
+#p3 {
+    z-index: 2;
+}
+
+#p4 {
+    z-index: 1;
+}
+
+.cover {
+    background: var(--pink) !important;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.letter-page {
+    padding: 25px;
+    text-align: center;
+    color: #333;
+}
+
+.next-btn {
+    padding: 12px 25px;
+    border-radius: 25px;
+    border: none;
+    background: var(--white);
+    color: var(--pink);
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.guide {
+    color: #666;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+
+/* =========================================================
+   TRANG 4: SIÊU CẤP BÃO ẢNH & NỀN TIM BAY (CẬP NHẬT)
+   ========================================================= */
+
+#final-surprise-screen {
+    background: #0e0d0d;
+    /* Đổi thành nền hồng nhạt như hình ông gửi */
+    overflow: hidden;
+    position: relative;
+}
+
+/* Lớp nền chứa các trái tim nhỏ bay lên */
+#bg-heart-layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    /* Nằm dưới cùng */
+    pointer-events: none;
+}
+/* Style cho từng trái tim nền Trang 4 - Đã nâng cấp lung linh hơn */
+.bg-heart-fly {
+    position: absolute;
+    bottom: -50px;
+    color: #ff477e;
+    /* Màu hồng đậm rực rỡ */
+    user-select: none;
+    pointer-events: none;
+    /* Hiệu ứng phát sáng giống trang đầu */
+    filter: drop-shadow(0 0 8px rgba(255, 71, 126, 0.8));
+    /* Kết hợp bay lên và xoay nhẹ */
+    animation: flyUpwards linear forwards;
+    z-index: 1;
+}
+
+@keyframes flyUpwards {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.8;
+        /* Hiện rõ hơn */
+    }
+
+    90% {
+        opacity: 0.8;
+    }
+
+    100% {
+        /* Bay cao quá màn hình và xoay 360 độ */
+        transform: translateY(-120vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Container chứa ảnh chạy ngang */
+#photo-runner-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    /* Nằm trên lớp tim nền */
+}
+
+/* Style cho từng tấm ảnh chạy */
+.running-photo {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 3px solid white;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    left: -200px;
+    animation: runToRight linear infinite;
+    z-index: 5;
+}
+
+/* Hiệu ứng cắt ảnh hình trái tim */
+.heart-shape {
+    clip-path: path('M75 140s-75-45-75-90c0-25 15-45 37.5-45 15 0 30 10 37.5 25 7.5-15 22.5-25 37.5-25 22.5 0 37.5 20 37.5 45 0 45-75 90-75 90z');
+}
+
+/* Hiệu ứng cắt ảnh hình vuông (bo góc nhẹ) */
+.square-shape {
+    border-radius: 15px;
+}
+
+/* Animation chạy từ trái qua phải */
+@keyframes runToRight {
+    0% {
+        transform: translateX(0) rotate(0deg);
+    }
+
+    100% {
+        transform: translateX(calc(100vw + 300px)) rotate(10deg);
+    }
+}
+
+/* Chữ đè lên trên cùng */
+.final-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    /* Nằm trên tất cả */
+    pointer-events: none;
+    text-align: center;
+}
+
+.final-text {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 20px 40px;
+    border-radius: 50px;
+    color: #ff477e;
+    font-size: 2.5rem;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 30px rgba(255, 71, 126, 0.3);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
     }
 }
