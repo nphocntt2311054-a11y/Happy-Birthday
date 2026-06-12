@@ -8,7 +8,7 @@ let heartInterval;
 function spawnHeart() {
     const container = document.getElementById('heart-container');
     if(!container) return;
-    const heartSymbols = ['❤', '💗', '💖', '💕', '♥'];
+    const heartSymbols = ['❤', '💗', '💖', '💕','🌸', '♥'];
     const heart = document.createElement('div');
     heart.classList.add('heart');
     heart.innerText = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
@@ -58,6 +58,9 @@ function checkPassword() {
             const cakeScreen = document.getElementById('cake-screen');
             if (cakeScreen) {
                 cakeScreen.classList.remove('hidden');
+                
+                // 🔥 CHỖ FIX CHO ÔNG: Gọi hàm để kích hoạt tính năng Mic + Click thổi nến hoạt động
+                startListening(); 
             }
         }, 3000);
 
@@ -71,6 +74,7 @@ function checkPassword() {
         passwordInput.value = "";
     }
 }
+
 // Thêm hiệu ứng cho ảnh hint khi click
 document.addEventListener('DOMContentLoaded', () => {
     const loginFrame = document.querySelector('.image-frame-neon');
@@ -86,68 +90,91 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ==========================================
-// TRANG 2: LOGIC XỬ LÝ THỔI NẾN (MIC + CLICK)
+// TRANG 2: LOGIC XỬ LÝ THỔI NẾN (MIC + CLICK) - FIX LỖI TRÊN ĐIỆN THOẠI
 // ==========================================
 function startListening() {
+    if (typeof window.isBlown === 'undefined') {
+        window.isBlown = false;
+    }
+    window.isBlown = false; 
+
     const flame = document.querySelector('.flame');
-    const candle = document.querySelector('.candle'); // FIX: Thêm dòng này để chọn toàn bộ cây nến
+    const candle = document.querySelector('.candle'); 
     
-    // Hàm dùng chung để xử lý khi nến bị tắt (tối ưu để không lặp lại code)
+    // Hàm dùng chung để xử lý khi nến bị tắt
     const extinguishCandle = (stream) => {
-        if (isBlown) return; // Nếu đã tắt rồi thì không chạy lại
-        isBlown = true;
+        if (window.isBlown) return; 
+        window.isBlown = true;
         
         if (flame) flame.style.display = 'none'; // Tắt lửa
-        document.getElementById('instruction').innerText = "Chúc mừng sinh nhật! ✨";
+        const instruction = document.getElementById('instruction');
+        if (instruction) instruction.innerText = "Chúc mừng sinh nhật! ✨";
         
         const nextBtn = document.getElementById('btn-to-book');
         if (nextBtn) nextBtn.classList.remove('hidden'); // Hiện nút bấm chuyển trang
         
-        // Nếu có stream micro thì tắt đi để bảo mật/tiết kiệm pin
         if (stream) {
-            stream.getTracks().forEach(t => t.stop());
+            try {
+                stream.getTracks().forEach(t => t.stop()); // Tắt mic
+            } catch(e) { console.log(e); }
         }
     };
 
-    // CÁCH 1: TẮT NẾN BẰNG CLICK 
-    // FIX: Gắn sự kiện click vào 'candle' thay vì 'flame' để click phát ăn ngay
-    if (candle) {
-        candle.style.cursor = 'pointer'; // Tạo hiệu ứng bàn tay khi rê chuột vào cây nến
-        candle.addEventListener('click', () => {
-            extinguishCandle(); // Gọi hàm tắt nến ngay khi click
-        });
-    }
-
-    // CÁCH 2: TẮT NẾN BẰNG CÁCH THỔI (Giữ nguyên logic mic của ông)
-    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const analyser = audioContext.createAnalyser();
-        const microphone = audioContext.createMediaStreamSource(stream);
-        microphone.connect(analyser);
-        const dataArray = new Uint8Array(analyser.frequencyBinCount);
-
-        function detect() {
-            if (isBlown) return;
-            analyser.getByteFrequencyData(dataArray);
-            let avg = dataArray.reduce((a, b) => a + b) / dataArray.length;
-            
-            if (avg > 50) { 
-                extinguishCandle(stream); // Thổi đủ mạnh thì tắt nến
-            }
-            requestAnimationFrame(detect);
-        }
-        detect();
-
-        // FIX: Cập nhật lại sự kiện click nếu mic đang hoạt động cho 'candle'
+    // CÁCH 1: TẮT NẾN BẰNG CLICK / CHẠM (Ưu tiên cài đặt trước để luôn luôn bấm được)
+    const applyClickEvents = (stream) => {
+        const handler = () => extinguishCandle(stream);
         if (candle) {
-            candle.onclick = () => extinguishCandle(stream);
+            candle.style.cursor = 'pointer';
+            candle.onclick = handler;
         }
-    }).catch(() => {
-        // Nếu không cho dùng mic, vẫn đợi 3s hoặc cho phép người dùng click
+        if (flame) {
+            flame.style.cursor = 'pointer';
+            flame.onclick = handler;
+        }
+    };
+
+    // Bật tính năng click ngay lập tức
+    applyClickEvents();
+
+    // Hàm dự phòng tự tắt sau 3 giây nếu không cho dùng mic
+    const runFallback = () => {
         setTimeout(() => {
-            if (!isBlown) extinguishCandle();
+            if (!window.isBlown) extinguishCandle();
         }, 3000);
-    });
+    };
+
+    // CÁCH 2: TẮT NẾN BẰNG CÁCH THỔI (Kiểm tra an toàn để không bị sập code trên HTTP điện thoại)
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const analyser = audioContext.createAnalyser();
+            const microphone = audioContext.createMediaStreamSource(stream);
+            microphone.connect(analyser);
+            const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+            function detect() {
+                if (window.isBlown) return;
+                analyser.getByteFrequencyData(dataArray);
+                let avg = dataArray.reduce((a, b) => a + b) / dataArray.length;
+                
+                if (avg > 50) { 
+                    extinguishCandle(stream); // Thổi đủ mạnh thì tắt nến
+                }
+                requestAnimationFrame(detect);
+            }
+            detect();
+
+            // Nếu xin quyền mic thành công, cập nhật click kèm tắt stream mic
+            applyClickEvents(stream);
+            
+        }).catch(() => {
+            // Nếu người dùng từ chối mic, chạy chế độ dự phòng
+            runFallback();
+        });
+    } else {
+        // Nếu trình duyệt chặn mic hoàn toàn (do chạy link HTTP trên điện thoại), chạy dự phòng ngay
+        runFallback();
+    }
 }
 
 
@@ -191,7 +218,7 @@ function showFinalSurprise(event) {
         heart.classList.add('bg-heart-fly');
         
         // Danh sách nhiều loại tim cho đẹp giống trang đầu
-        const heartSymbols = ['❤', '💗', '💖', '💕', '♥', '🌸'];
+        const heartSymbols = ['❤', '💗', '💖', '💕', '♥', '🌸','🌷'];
         heart.innerText = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
         
         heart.style.left = Math.random() * 100 + 'vw';

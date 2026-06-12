@@ -254,84 +254,235 @@ body {
     opacity: 0 !important;
     visibility: hidden !important;
 }
-/* =========================================================
-   TRANG 2: GIAO DIỆN BÁNH KEM & NẾN
-   ========================================================= */
-.cake {
-    position: relative;
-    width: 150px;
-    height: 150px;
-    margin-bottom: 40px;
-}
 
-.layer {
+/* ==========================================
+   TRANG 2: HIỆU ỨNG BÁNH BỤI SAO TIKTOK - ĐÃ FIX LỖI KHÔNG TẮT NẾN
+   ========================================== */
+#cake-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
     position: absolute;
-    background: #ff8fa3;
-    border-bottom: 4px solid #ff477e;
-    border-radius: 10px 10px 0 0;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    background-color: #050505;
+    /* Nền đen sâu làm nổi bật bụi sao */
+    overflow: hidden;
 }
 
-.layer-bottom {
-    width: 150px;
-    height: 50px;
-    bottom: 0;
+.cake-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 30px;
 }
 
-.layer-middle {
-    width: 120px;
-    height: 40px;
-    bottom: 50px;
-    background: #ffb3c1;
+/* Khung bánh giữ nguyên trục dọc chuẩn để JS tính toạ độ chính xác */
+.cake {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 30px;
+    filter: drop-shadow(0 0 25px rgba(255, 20, 147, 0.4));
+    animation: cakeFloat 4s ease-in-out infinite;
+}
+
+@keyframes cakeFloat {
+    0% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-10px) scale(1.01);
+    }
+
+    100% {
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Đảm bảo thứ tự tháp bánh chuẩn: Nến -> Tầng bé -> Tầng vừa -> Tầng lớn */
+.candle {
+    order: 1;
 }
 
 .layer-top {
-    width: 90px;
-    height: 30px;
-    bottom: 90px;
-    background: #ffccd5;
+    order: 2;
 }
 
+.layer-middle {
+    order: 3;
+}
+
+.layer-bottom {
+    order: 4;
+}
+
+/* THUẬT TOÁN ĐÁM MÂY BỤI SAO LẤP LÁNH (KHÔNG BỊ Ô LƯỚI) */
+.layer {
+    background-color: transparent;
+
+    /* Mix các tầng hạt bụi ngẫu nhiên theo số nguyên tố để bẻ gãy hàng lối kẻ ô */
+    background-image:
+        radial-gradient(circle at 20% 40%, #ffffff 1.2px, transparent 1.8px),
+        radial-gradient(circle at 75% 15%, #ff7eb3 1.5px, transparent 2.2px),
+        radial-gradient(circle at 50% 80%, #ff1493 1px, transparent 2px),
+        radial-gradient(circle at 10% 70%, #ffffff 1.5px, transparent 2px),
+        radial-gradient(circle at 85% 65%, #ff69b4 1.2px, transparent 1.8px);
+
+    background-size: 13px 19px, 23px 17px, 16px 29px, 21px 11px, 18px 25px;
+    border: none !important;
+    border-radius: 50px;
+    position: relative;
+
+    /* Hào quang Nebula mờ ảo xung quanh khối bánh */
+    box-shadow:
+        0 0 25px rgba(255, 105, 180, 0.8),
+        0 0 50px rgba(255, 20, 147, 0.5),
+        inset 0 0 15px rgba(255, 255, 255, 0.3);
+
+    animation: stardustGlitter 0.6s infinite linear;
+}
+
+@keyframes stardustGlitter {
+    0% {
+        background-position: 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
+        filter: brightness(1);
+    }
+
+    50% {
+        background-position: 5px -7px, -4px 6px, 8px 3px, -3px -5px, 6px 4px;
+        filter: brightness(1.2) drop-shadow(0 0 2px #fff);
+    }
+
+    100% {
+        background-position: 13px 19px, -23px 17px, 16px -29px, 21px 11px, -18px 25px;
+        filter: brightness(1);
+    }
+}
+
+.layer::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 50px;
+    background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15), transparent 60%);
+    backdrop-filter: blur(1px);
+    pointer-events: none;
+}
+
+/* Kích thước tháp bánh */
+.layer-top {
+    width: 140px;
+    height: 48px;
+    margin-bottom: 6px;
+    z-index: 3;
+}
+
+.layer-middle {
+    width: 200px;
+    height: 56px;
+    margin-bottom: 6px;
+    z-index: 2;
+}
+
+.layer-bottom {
+    width: 260px;
+    height: 64px;
+    z-index: 1;
+}
+
+/* CÂY NẾN */
 .candle {
-    position: absolute;
-    width: 8px;
-    height: 30px;
-    background: white;
-    bottom: 120px;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
+    background: linear-gradient(to right, #ffffff, #ffb6c1, #ffffff);
+    width: 6px;
+    height: 42px;
+    border-radius: 3px;
+    margin-bottom: -2px;
+    z-index: 10;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 20, 147, 0.6);
 }
 
+/* NGỌN LỬA NẾN - ĐÃ THÁO BỎ !IMPORTANT (Để JS tự do điều khiển) */
 .flame {
-    width: 12px;
-    height: 18px;
-    background: orange;
-    border-radius: 50%;
     position: absolute;
-    top: -20px;
+    background: radial-gradient(circle, #ffffff 10%, #ffeb3b 40%, #ff5722 80%, transparent 100%);
+    width: 16px;
+    height: 26px;
+    border-radius: 50% 50% 20% 20%;
+    top: -26px;
     left: 50%;
     transform: translateX(-50%);
-    box-shadow: 0 0 10px orange;
-    animation: flicker 0.1s infinite alternate;
+    animation: flameFlicker 0.5s infinite alternate;
+    box-shadow: 0 0 20px #ffeb3b, 0 0 40px #ff5722, 0 0 60px rgba(255, 20, 147, 0.8);
+    display: block;
+    opacity: 1;
+    visibility: visible;
 }
 
-@keyframes flicker {
-    from {
-        transform: translateX(-50%) scale(1);
+@keyframes flameFlicker {
+    0% {
+        transform: translateX(-50%) scale(1) rotate(-1deg);
     }
 
-    to {
-        transform: translateX(-50%) scale(1.1);
+    100% {
+        transform: translateX(-48%) scale(1.1) rotate(1deg);
     }
 }
-/* Dòng hướng dẫn */
+
+/* BỘ LỌC TẮT NẾN TOÀN DIỆN - Ép tắt rụp khi JS gọi bất kỳ class nào dưới đây */
+.flame.out,
+.flame.off,
+.flame.hidden,
+.candle.blown .flame,
+.cake.blown .flame,
+.candle.off .flame {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+/* Chữ chỉ dẫn */
 #instruction {
-    color: white;
-    /* Đổi màu chữ thành trắng */
-    /* Nếu ông muốn chữ nổi bật hơn trên nền tối thì có thể thêm dòng text-shadow bên dưới, không thì bỏ qua nha */
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 500;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 12px rgba(255, 105, 180, 0.9);
+    margin: 10px 0;
 }
+
+/* Nút bấm chuyển trang */
+.next-btn {
+    background: linear-gradient(135deg, #ff1493, #ff69b4);
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(255, 20, 147, 0.5);
+    transition: all 0.3s ease;
+}
+
+.next-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 20, 147, 0.8);
+}
+
 
 /* =========================================================
    TRANG 3: GIAO DIỆN SÁCH LẬT KỶ NIỆM
