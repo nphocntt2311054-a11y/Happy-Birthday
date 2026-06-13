@@ -56,41 +56,55 @@
     </div>
 
 
-    <div id="gallery-screen" class="section hidden">
-        <div class="book-container">
-            <div class="book">
-                <div class="page" id="p1" onclick="flipPage(1)">
-                    <div class="front cover">
-                        <img src="image/8.jpg" alt="Bìa">
-                        <div class="cover-title">Gửi Thiên Thần 💖</div>
-                    </div>
-                    <div class="back"><img src="image/1.jpg" alt="Ảnh 1"></div>
+<div id="gallery-screen" class="section hidden">
+    <div class="book-container">
+        <div class="book">
+
+            <div class="page" id="p1" onclick="flipPage(1)">
+                <div class="front cover">
+                    <img src="image/29.jpg" alt="Bìa">
+                    <div class="cover-title">Gửi Thiên Thần 💖</div>
                 </div>
-                <div class="page" id="p2" onclick="flipPage(2)">
-                    <div class="front"><img src="image/16.jpg" alt="Ảnh 2"></div>
-                    <div class="back letter-page">
-                        <div class="letter-content">
-                            <h3>Happy Birthday!</h3>
-                            <p>Chúc em tuổi mới luôn rạng rỡ và hạnh phúc bên anh nhé!</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="page" id="p3" onclick="flipPage(3)">
-                    <div class="front"><img src="image/2.jpg" alt="Ảnh 3"></div>
-                    <div class="back"><img src="image/3.jpg" alt="Ảnh 4"></div>
-                </div>
-                <div class="page" id="p4" onclick="flipPage(4)">
-                    <div class="front"><img src="image/4.jpg" alt="Ảnh 5"></div>
-                    <div class="back cover">
-                        <h3>Vẫn chưa hết đâu! 😍</h3>
-                        <button class="next-btn" onclick="showFinalSurprise(event)">Xem điều bất ngờ ➔</button>
+                <div class="back letter-page">
+                    <div class="letter-content">
+                        <h3>Happy Birthday! 🎂</h3>
+                        <p>Chúc em tuổi mới luôn rạng rỡ, xinh đẹp và hạnh phúc bên anh nhé!</p>
                     </div>
                 </div>
             </div>
-            <p class="guide">Chạm vào trang sách để lật...</p>
-        </div>
-    </div>
 
+            <div class="page" id="p2" onclick="flipPage(2)">
+                <div class="front"><img src="image/16.jpg" alt="Ảnh 2"></div>
+                <div class="back letter-page">
+                    <div class="letter-content">
+                        <h3>Cảm ơn em ❤️</h3>
+                        <p>Cảm ơn bé vì đã luôn bao dung và đồng hành cùng anh qua mọi khoảnh khắc.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="p3" onclick="flipPage(3)">
+                <div class="front"><img src="image/2.jpg" alt="Ảnh 3"></div>
+                <div class="back letter-page">
+                    <div class="letter-content">
+                        <h3>Xin lỗi bé 🥺</h3>
+                        <p>Xin lỗi em vì những lúc vô tâm làm em buồn. Anh sẽ cố gắng yêu thương em nhiều hơn nữa!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="p4" onclick="flipPage(4)">
+                <div class="front"><img src="image/4.jpg" alt="Ảnh cuối"></div>
+                <div class="back cover">
+                    <h3>Vẫn chưa hết đâu! 😍</h3>
+                    <button class="next-btn" onclick="showFinalSurprise(event)">Xem điều bất ngờ ➔</button>
+                </div>
+            </div>
+
+        </div>
+        <p class="guide">Chạm vào trang sách để lật...</p>
+    </div>
+</div>
 
 <div id="final-surprise-screen" class="section hidden">
     <div id="bg-heart-layer"></div>

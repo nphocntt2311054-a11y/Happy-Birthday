@@ -483,12 +483,18 @@ body {
     box-shadow: 0 8px 25px rgba(255, 20, 147, 0.8);
 }
 
-
 /* =========================================================
-   TRANG 3: GIAO DIỆN SÁCH LẬT KỶ NIỆM
+   TRANG 3: GIAO DIỆN SÁCH LẬT KỶ NIỆM (BẢN ALBUM 3D SIÊU THỰC)
    ========================================================= */
 .book-container {
-    perspective: 1500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    perspective: 2500px;
+    /* Tăng chiều sâu để camera nhìn sách thật hơn, ít bị méo góc */
 }
 
 .book {
@@ -496,49 +502,110 @@ body {
     height: 400px;
     position: relative;
     transform-style: preserve-3d;
+    transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    /* Nhịp lật chậm, đầm chắc như lật sách thật */
+
+    /* Bóng đổ tổng thể cho nguyên cuốn sách dày */
+    box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.5),
+        0px 0px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 5px 15px 15px 5px;
+}
+
+/* Mở sách ra thì dịch 150px để giữa tâm */
+.book:has(.page.flipped) {
+    transform: translateX(150px);
+}
+
+/* Khi lật HẾT trang cuối (p4) sang trái, kéo sách thêm 150px nữa để căn giữa */
+.book:has(#p4.flipped) {
+    transform: translateX(300px);
+    box-shadow: none !important;
 }
 
 .page {
     width: 100%;
     height: 100%;
     position: absolute;
-    transform-origin: left;
+    top: 0;
+    left: 0;
+    transform-origin: left center;
     transform-style: preserve-3d;
-    transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
     cursor: pointer;
 }
 
+/* Ép khung tuyệt đối + Thêm hiệu ứng chất liệu giấy */
 .front,
 .back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
     backface-visibility: hidden;
-    border-radius: 0 15px 15px 0;
-    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.4);
+    background-color: #fafafa;
+    /* Màu giấy ngà ngà cho sang trọng */
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    /* Viền mỏng tạo cảm giác độ dày xếp lớp của giấy */
 }
 
+/* MẶT TRƯỚC TỪNG TRANG */
+.front {
+    border-radius: 0 15px 15px 0;
+    /* Hiệu ứng gáy sách: tối ở sát mép gáy, sáng nhẹ ở nếp gấp, hơi tối ở viền ngoài */
+    background-image: linear-gradient(to right,
+            rgba(0, 0, 0, 0.35) 0%,
+            rgba(0, 0, 0, 0.05) 6%,
+            rgba(255, 255, 255, 0) 15%,
+            rgba(255, 255, 255, 0) 95%,
+            rgba(0, 0, 0, 0.08) 100%);
+    /* Bóng đổ của giấy: hắt viền sáng ở gáy, đổ bóng đen xuống trang bên dưới */
+    box-shadow: inset 2px 0 5px rgba(255, 255, 255, 0.6),
+        4px 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* MẶT SAU TỪNG TRANG (Ngược lại với mặt trước) */
 .back {
     transform: rotateY(180deg);
-    background: #fdfdfd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    border-radius: 15px 0 0 15px;
+    background-image: linear-gradient(to left,
+            rgba(0, 0, 0, 0.35) 0%,
+            rgba(0, 0, 0, 0.05) 6%,
+            rgba(255, 255, 255, 0) 15%,
+            rgba(255, 255, 255, 0) 95%,
+            rgba(0, 0, 0, 0.08) 100%);
+    box-shadow: inset -2px 0 5px rgba(255, 255, 255, 0.6),
+        -4px 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* CỐ ĐỊNH ẢNH TRÀN KHUNG HOÀN HẢO */
 .page img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 0 15px 15px 0;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.front img {
+    border-radius: 0 15px 15px 0 !important;
+}
+
+.back img {
+    border-radius: 15px 0 0 15px !important;
 }
 
 .page.flipped {
     transform: rotateY(-180deg);
 }
 
-/* Sắp xếp lớp cho 4 trang sách */
+/* Layer order */
 #p1 {
     z-index: 4;
 }
@@ -555,40 +622,150 @@ body {
     z-index: 1;
 }
 
+#p4 .front,
+#p4 .back {
+    box-shadow: none !important;
+    background-image: none !important;
+}
+
+/* TRANG BÌA CỨNG (Sịn xò hơn các trang giấy trong) */
 .cover {
-    background: var(--pink) !important;
+    background-color: var(--pink, #ff69b4) !important;
     color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    /* Viền sáng giả lớp bọc nilon của bìa album */
 }
 
+.cover-title {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-top: 15px;
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    letter-spacing: 1px;
+}
+
+/* TRANG THƯ - HIỆU ỨNG THIỆP GIẤY CAO CẤP */
 .letter-page {
-    padding: 25px;
+    padding: 30px;
     text-align: center;
-    color: #333;
+    color: #444;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fffafb !important;
+    /* Chỉnh màu nền thành ánh hồng siêu nhạt cho lãng mạn */
 }
 
+.letter-content h3 {
+    color: var(--pink, #ff1493);
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 2px rgba(255, 105, 180, 0.2);
+}
+
+.letter-content p {
+    line-height: 1.7;
+    font-size: 1.1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Font chữ dễ thương, mềm mại hơn */
+}
+
+/* NÚT BẤM */
 .next-btn {
-    padding: 12px 25px;
-    border-radius: 25px;
+    padding: 12px 28px;
+    border-radius: 30px;
     border: none;
-    background: var(--white);
-    color: var(--pink);
+    background: var(--white, #ffffff);
+    color: var(--pink, #ff1493);
     cursor: pointer;
     font-weight: bold;
-    margin-top: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    font-size: 1rem;
+    margin-top: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.next-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.6);
+    background: #ffe6f0;
 }
 
 .guide {
-    color: #666;
-    margin-top: 20px;
-    font-size: 0.9rem;
+    color: #ddd;
+    margin-top: 45px;
+    font-size: 0.95rem;
     text-align: center;
+    opacity: 0.8;
+    letter-spacing: 0.5px;
+    animation: pulseText 2s infinite;
 }
 
+@keyframes pulseText {
+
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* =========================================================
+   THÊM MỚI: CHỈ SỬA RIÊNG TRANG BÌA CUỐI (STYLE CUTE)
+   ========================================================= */
+
+/* Đổi nền sang pastel ngọt ngào và thêm viền nét đứt đáng yêu */
+#p4 .back.cover {
+    background: linear-gradient(135deg, #ffe0e9 0%, #ffebf0 100%) !important;
+    border: 4px dashed #ffb3c6 !important;
+    box-sizing: border-box !important;
+}
+
+/* Thêm viền trắng sticker bao quanh chữ tiêu đề ở trang cuối */
+#p4 .back.cover h3,
+#p4 .back.cover .cover-title {
+    color: #ff477e !important;
+    font-size: 1.8rem !important;
+    font-family: 'Nunito', 'Comic Sans MS', cursive, sans-serif !important;
+    text-shadow:
+        2px 2px 0px #fff,
+        -2px -2px 0 #fff,
+        2px -2px 0 #fff,
+        -2px 2px 0 #fff,
+        0 4px 10px rgba(255, 71, 126, 0.3) !important;
+    margin-bottom: 30px !important;
+    letter-spacing: 0.5px !important;
+}
+
+/* Làm nút bấm khối 3D bập bênh ở trang cuối */
+#p4 .back.cover .next-btn {
+    background-color: #ff477e !important;
+    color: white !important;
+    border: none !important;
+    padding: 14px 35px !important;
+    font-size: 1.1rem !important;
+    font-weight: 900 !important;
+    border-radius: 50px !important;
+    box-shadow: 0 6px 0 #c21a4f, 0 12px 20px rgba(255, 71, 126, 0.4) !important;
+    transition: all 0.1s ease !important;
+    cursor: pointer;
+}
+
+/* Hiệu ứng lún nút cơ học cực đã tay khi di chuột/click */
+#p4 .back.cover .next-btn:hover,
+#p4 .back.cover .next-btn:active {
+    transform: translateY(6px) !important;
+    box-shadow: 0 0px 0 #c21a4f, 0 5px 10px rgba(255, 71, 126, 0.4) !important;
+    background-color: #ff3370 !important;
+}
 
 /* =========================================================
    TRANG 4: SIÊU CẤP BÃO ẢNH & NỀN TIM BAY (CẬP NHẬT)
