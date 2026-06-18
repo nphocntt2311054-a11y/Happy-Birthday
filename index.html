@@ -50,7 +50,7 @@
                     <div class="flame"></div>
                 </div>
             </div>
-            <h2 id="instruction"> Bé ước rùi thôi mạnh vào bánh nhé 💨🎂</h2>
+            <h2 id="instruction"> Bé ước rùi thổi mạnh vào bánh để tắt nến nhé 💨🎂</h2>
             <button id="btn-to-book" class="next-btn hidden" onclick="showBook()">Còn cái này cho ebe nữa nèee ➔</button>
         </div>
     </div>
@@ -67,8 +67,10 @@
                 </div>
                 <div class="back letter-page">
                     <div class="letter-content">
-                        <h3>Happy Birthday! 🎂</h3>
-                        <p>Chúc em tuổi mới luôn rạng rỡ</p>
+                        <h3>Happy Birthday 🎂</h3>
+                        <p>Đây là một món quà nhỏ của a dành cho em, dù nó không gì to tát nhưng với lòng chân thành, a hy vọng rằng e sẽ luôn được
+                        vui vẻ, hạnh phúc. Nụ cười mà em thể hiện phải luôn là nụ cười dùng để bộc lộ niềm vui chứ không phải để che giấu nỗi
+                        lòng. Hy vọng là mọi thứ sẽ lun nhẹ nhành với ngừoi thương của anh❤️</p>
                     </div>
                 </div>
             </div>
@@ -77,8 +79,10 @@
                 <div class="front"><img src="image/16.jpg" alt="Ảnh 2"></div>
                 <div class="back letter-page">
                     <div class="letter-content">
-                        <h3>Cảm ơn em ❤️</h3>
-                        <p>Cảm ơn bé vì đã luôn bao dung và đồng hành cùng anh qua mọi khoảnh khắc.</p>
+                        <h3> ❤️</h3>
+                        <p>Cảm ơn e vì đã một lần nữa đánh cược để đồng hành cùng anh, cho a được yêu em. Anh sẽ lun ở đây nếu em có áp lực hay khó
+                        khăn a sẽ sẵng sàng lắng nghe nỗi bùn của em. A không thể mang nỗi bùn thay e nhưng nếu có thể nói thì cứ để a thấu hĩu
+                        nó cùng em.</p>
                     </div>
                 </div>
             </div>
@@ -87,8 +91,10 @@
                 <div class="front"><img src="image/6.jpg" alt="Ảnh 3"></div>
                 <div class="back letter-page">
                     <div class="letter-content">
-                        <h3>Xin lỗi bé 🥺</h3>
-                        <p>Xin lỗi em vì những lúc vô tâm làm em buồn. Anh sẽ cố gắng yêu thương em nhiều hơn nữa!</p>
+                        <h3>🌷</h3>
+                        <p>Và một lời xin lỗi chân thành cho những lần đã làm em phải bùn. A đã thay đổi được nhiều thứ nhưng vẫn cần học thêm
+                        nhiều điều để có thể yêu em trọn vẹn hơn. Muốn không phải kết quả củ thì cả 2 phải trở thành một người khác đúng khumm.
+                        Anh mong muốn những thứ trong tương lai a đạt được điều có tên em theo cùng❤️</p>
                     </div>
                 </div>
             </div>
@@ -100,7 +106,7 @@
                 <div class="back cover">
                     <img src="image/19.jpg" alt="Ảnh nền mặt cuối">
             
-                    <button class="next-btn" onclick="showFinalSurprise(event); window.location.href='heart.html';">Còn cái cúii nè beiu ơii ➔</button>
+                <button class="next-btn" onclick="showFinalSurprise(event)">Còn cái cúii nè beiu ơii ➔</button>
                 </div>
             </div>
 
@@ -108,7 +114,9 @@
         <p class="guide">Em chạm ảnh để xem tiếp nhaaa</p>
     </div>
 </div>
-<!-- helo -->
+
+
+
 <div id="final-surprise-screen" class="section hidden"
     style="position: relative; width: 100vw; height: 100vh; overflow: hidden; background-color: #000;">
     <div id="bg-heart-layer"></div>
@@ -144,9 +152,14 @@
     </div>
 </div>
 
+<!-- html heart -->
+<canvas id="pinkboard"></canvas>
+
 
     <audio id="bg-music" src="happy-birthday.mp3" loop></audio>
     <script src="script.js"></script>
+
+  
 </body>
 
 </html>
