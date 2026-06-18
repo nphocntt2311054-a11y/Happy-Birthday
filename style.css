@@ -256,7 +256,7 @@ body {
 }
 
 /* ==========================================
-   TRANG 2: HIỆU ỨNG BÁNH BỤI SAO TIKTOK - ĐÃ FIX LỖI KHÔNG TẮT NẾN
+   TRANG 2: HIỆU ỨNG BÁNH KEM PASTEL ĐÚNG THỨ TỰ
    ========================================== */
 #cake-screen {
     display: flex;
@@ -268,8 +268,7 @@ body {
     top: 0;
     left: 0;
     box-sizing: border-box;
-    background-color: #050505;
-    /* Nền đen sâu làm nổi bật bụi sao */
+    background-color: transparent !important;
     overflow: hidden;
 }
 
@@ -279,10 +278,10 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-    gap: 30px;
+    gap: 0px;
+    /* Giảm gap để các tầng sát nhau */
 }
 
-/* Khung bánh giữ nguyên trục dọc chuẩn để JS tính toạ độ chính xác */
 .cake {
     display: flex;
     flex-direction: column;
@@ -290,25 +289,10 @@ body {
     justify-content: center;
     position: relative;
     padding: 30px;
-    filter: drop-shadow(0 0 25px rgba(255, 20, 147, 0.4));
     animation: cakeFloat 4s ease-in-out infinite;
 }
 
-@keyframes cakeFloat {
-    0% {
-        transform: translateY(0) scale(1);
-    }
-
-    50% {
-        transform: translateY(-10px) scale(1.01);
-    }
-
-    100% {
-        transform: translateY(0) scale(1);
-    }
-}
-
-/* Đảm bảo thứ tự tháp bánh chuẩn: Nến -> Tầng bé -> Tầng vừa -> Tầng lớn */
+/* THỨ TỰ TẦNG BÁNH (Đã fix thứ tự hiển thị) */
 .candle {
     order: 1;
 }
@@ -325,123 +309,58 @@ body {
     order: 4;
 }
 
-/* THUẬT TOÁN ĐÁM MÂY BỤI SAO LẤP LÁNH (KHÔNG BỊ Ô LƯỚI) */
+/* TẦNG BÁNH MÀU HỒNG PASTEL */
 .layer {
-    background-color: transparent;
-
-    /* Mix các tầng hạt bụi ngẫu nhiên theo số nguyên tố để bẻ gãy hàng lối kẻ ô */
-    background-image:
-        radial-gradient(circle at 20% 40%, #ffffff 1.2px, transparent 1.8px),
-        radial-gradient(circle at 75% 15%, #ff7eb3 1.5px, transparent 2.2px),
-        radial-gradient(circle at 50% 80%, #ff1493 1px, transparent 2px),
-        radial-gradient(circle at 10% 70%, #ffffff 1.5px, transparent 2px),
-        radial-gradient(circle at 85% 65%, #ff69b4 1.2px, transparent 1.8px);
-
-    background-size: 13px 19px, 23px 17px, 16px 29px, 21px 11px, 18px 25px;
-    border: none !important;
-    border-radius: 50px;
+    background-color: #ffcce0;
+    /* Hồng pastel xinh xắn */
+    border: 2px solid #ffb3d1;
+    border-radius: 15px;
     position: relative;
-
-    /* Hào quang Nebula mờ ảo xung quanh khối bánh */
-    box-shadow:
-        0 0 25px rgba(255, 105, 180, 0.8),
-        0 0 50px rgba(255, 20, 147, 0.5),
-        inset 0 0 15px rgba(255, 255, 255, 0.3);
-
-    animation: stardustGlitter 0.6s infinite linear;
+    box-shadow: 0 4px 0 #ffb3d1;
+    /* Tạo gờ cho bánh */
+    margin-bottom: 5px;
 }
 
-@keyframes stardustGlitter {
-    0% {
-        background-position: 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
-        filter: brightness(1);
-    }
-
-    50% {
-        background-position: 5px -7px, -4px 6px, 8px 3px, -3px -5px, 6px 4px;
-        filter: brightness(1.2) drop-shadow(0 0 2px #fff);
-    }
-
-    100% {
-        background-position: 13px 19px, -23px 17px, 16px -29px, 21px 11px, -18px 25px;
-        filter: brightness(1);
-    }
-}
-
-.layer::after {
-    content: '';
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    border-radius: 50px;
-    background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15), transparent 60%);
-    backdrop-filter: blur(1px);
-    pointer-events: none;
-}
-
-/* Kích thước tháp bánh */
+/* Kích thước tháp bánh (Tầng dưới to, tầng trên nhỏ) */
 .layer-top {
-    width: 140px;
-    height: 48px;
-    margin-bottom: 6px;
-    z-index: 3;
+    width: 100px;
+    height: 35px;
 }
 
 .layer-middle {
-    width: 200px;
-    height: 56px;
-    margin-bottom: 6px;
-    z-index: 2;
+    width: 160px;
+    height: 45px;
 }
 
 .layer-bottom {
-    width: 260px;
-    height: 64px;
-    z-index: 1;
+    width: 220px;
+    height: 55px;
 }
 
 /* CÂY NẾN */
 .candle {
-    position: relative;
-    background: linear-gradient(to right, #ffffff, #ffb6c1, #ffffff);
-    width: 6px;
-    height: 42px;
-    border-radius: 3px;
-    margin-bottom: -2px;
+    background: #ffffff;
+    width: 8px;
+    height: 40px;
+    border-radius: 4px;
+    margin-bottom: -5px;
     z-index: 10;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 20, 147, 0.6);
+    border: 1px solid #ffcce0;
 }
 
-/* NGỌN LỬA NẾN - ĐÃ THÁO BỎ !IMPORTANT (Để JS tự do điều khiển) */
 .flame {
     position: absolute;
-    background: radial-gradient(circle, #ffffff 10%, #ffeb3b 40%, #ff5722 80%, transparent 100%);
-    width: 16px;
-    height: 26px;
+    background: #ffdb58;
+    width: 12px;
+    height: 18px;
     border-radius: 50% 50% 20% 20%;
-    top: -26px;
+    top: -20px;
     left: 50%;
     transform: translateX(-50%);
-    animation: flameFlicker 0.5s infinite alternate;
-    box-shadow: 0 0 20px #ffeb3b, 0 0 40px #ff5722, 0 0 60px rgba(255, 20, 147, 0.8);
-    display: block;
-    opacity: 1;
-    visibility: visible;
+    animation: flameFlicker 0.4s infinite alternate;
 }
 
-@keyframes flameFlicker {
-    0% {
-        transform: translateX(-50%) scale(1) rotate(-1deg);
-    }
-
-    100% {
-        transform: translateX(-48%) scale(1.1) rotate(1deg);
-    }
-}
-
-/* BỘ LỌC TẮT NẾN TOÀN DIỆN - Ép tắt rụp khi JS gọi bất kỳ class nào dưới đây */
+/* CÁC CLASS KHÁC GIỮ NGUYÊN ĐỂ KHÔNG HỎNG CODE JS */
 .flame.out,
 .flame.off,
 .flame.hidden,
@@ -453,36 +372,52 @@ body {
     visibility: hidden !important;
 }
 
-/* Chữ chỉ dẫn */
 #instruction {
-    color: #ffffff;
+    color: #ff85a2;
     font-size: 1.25rem;
-    font-weight: 500;
-    font-family: 'Segoe UI', Roboto, sans-serif;
-    letter-spacing: 0.5px;
-    text-shadow: 0 0 12px rgba(255, 105, 180, 0.9);
-    margin: 10px 0;
+    font-weight: 700;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+    margin: 20px 0;
 }
 
-/* Nút bấm chuyển trang */
+./* Nút bấm chuyển trang đồng bộ style pastel sang xịn mịn */
 .next-btn {
-    background: linear-gradient(135deg, #ff1493, #ff69b4);
-    color: white;
-    border: none;
-    padding: 12px 40px;
-    font-size: 1rem;
-    font-weight: bold;
-    border-radius: 30px;
+    background: rgba(255, 182, 193, 0.85) !important;
+    /* Màu hồng phấn pastel trong suốt */
+    color: #d1476c !important;
+    /* Chữ màu hồng đậm thanh lịch, dễ đọc */
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    /* Viền trắng mỏng tinh tế */
+
+    padding: 10px 30px !important;
+    /* Kích thước vừa vặn, cân đối */
+    font-size: 1rem !important;
+    font-weight: bold !important;
+    border-radius: 20px !important;
+    /* Bo góc mềm mại kiểu hiện đại */
+
     cursor: pointer;
-    box-shadow: 0 5px 20px rgba(255, 20, 147, 0.5);
-    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+    /* Đổ bóng nhẹ nhàng cho nút nổi lên */
+    transition: all 0.3s ease !important;
+    white-space: nowrap;
+    /* Đảm bảo chữ luôn nằm trên một dòng */
 }
 
+/* Hiệu ứng khi di chuột vào (Hover) */
 .next-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(255, 20, 147, 0.8);
+    background: rgba(255, 182, 193, 0.95) !important;
+    /* Nền đậm lên một chút */
+    transform: translateY(-3px) !important;
+    /* Nhích nhẹ nút lên trên tạo cảm giác tương tác */
+    box-shadow: 0 6px 20px rgba(255, 182, 193, 0.4) !important;
+    /* Đổ bóng hồng mịn xung quanh */
 }
 
+/* Hiệu ứng khi bấm vào (Active) */
+.next-btn:active {
+    transform: translateY(-1px) !important;
+}
 /* =========================================================
    TRANG 3: GIAO DIỆN SÁCH LẬT KỶ NIỆM (BẢN ALBUM 3D SIÊU THỰC)
    ========================================================= */
@@ -747,24 +682,49 @@ body {
 
 /* Làm nút bấm khối 3D bập bênh ở trang cuối */
 #p4 .back.cover .next-btn {
-    background-color: #ff477e !important;
-    color: white !important;
-    border: none !important;
-    padding: 14px 35px !important;
-    font-size: 1.1rem !important;
-    font-weight: 900 !important;
-    border-radius: 50px !important;
-    box-shadow: 0 6px 0 #c21a4f, 0 12px 20px rgba(255, 71, 126, 0.4) !important;
-    transition: all 0.1s ease !important;
+    position: absolute !important;
+    /* Đổi sang absolute để tự do định vị */
+    top: 20px;
+    /* Đẩy hẳn nút lên phía trên cách mép 20px */
+    left: 50%;
+    transform: translateX(-50%) !important;
+    /* Căn giữa nút theo chiều ngang */
+    z-index: 10 !important;
+
+    /* ĐỔI SANG MÀU HỒNG PASTEL TRONG SUỐT NHẸ NHÀNG */
+    background: rgba(255, 182, 193, 0.85) !important;
+    /* Màu hồng phấn pastel dịu nhẹ pha chút mờ ảo */
+    color: #d1476c !important;
+    /* Chữ màu hồng đậm hơn một chút để dễ đọc trên nền sáng */
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    /* Viền trắng mỏng thanh lịch */
+
+    padding: 10px 24px !important;
+    /* Thu nhỏ kích thước nút lại một chút cho đỡ thô */
+    font-size: 0.95rem !important;
+    /* Chữ vừa vặn, tinh tế */
+    font-weight: bold !important;
+    border-radius: 20px !important;
+    /* Bo góc mềm mại giống các thanh công cụ hiện đại */
+
+    /* Đổ bóng nhẹ nhàng, thanh thoát thay vì khối 3D cục mịch cũ */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.3s ease !important;
     cursor: pointer;
+    white-space: nowrap;
+    /* Giữ chữ luôn nằm trên 1 dòng */
 }
 
-/* Hiệu ứng lún nút cơ học cực đã tay khi di chuột/click */
-#p4 .back.cover .next-btn:hover,
+/* HIỆU ỨNG DI CHUỘT (HOVER) NHẸ NHÀNG */
+#p4 .back.cover .next-btn:hover {
+    background: rgba(255, 182, 193, 0.95) !important;
+    transform: translateX(-50%) translateY(-2px) !important;
+    /* Nhích nhẹ lên khi hover */
+    box-shadow: 0 6px 20px rgba(255, 182, 193, 0.4) !important;
+}
+
 #p4 .back.cover .next-btn:active {
-    transform: translateY(6px) !important;
-    box-shadow: 0 0px 0 #c21a4f, 0 5px 10px rgba(255, 71, 126, 0.4) !important;
-    background-color: #ff3370 !important;
+    transform: translateX(-50%) translateY(0) !important;
 }
 
 /* =========================================================
@@ -902,4 +862,15 @@ body {
     100% {
         transform: scale(1);
     }
+}
+/* Đảm bảo tim bay luôn hiển thị trên mọi màn hình */
+#heart-container {
+    display: block !important;
+    z-index: 0 !important;
+    /* Đảm bảo nó nằm dưới cùng */
+}
+
+/* Đảm bảo trang bánh nằm trên tim nhưng nền phải trong suốt để thấy tim */
+#cake-screen {
+    z-index: 2 !important;
 }

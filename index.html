@@ -51,7 +51,7 @@
                 </div>
             </div>
             <h2 id="instruction"> Bé ước rùi thôi mạnh vào bánh nhé 💨🎂</h2>
-            <button id="btn-to-book" class="next-btn hidden" onclick="showBook()">Mở quà của anh nè ➔</button>
+            <button id="btn-to-book" class="next-btn hidden" onclick="showBook()">Còn cái này cho ebe nữa nèee ➔</button>
         </div>
     </div>
 
@@ -62,7 +62,7 @@
 
             <div class="page" id="p1" onclick="flipPage(1)">
                 <div class="front cover">
-                    <img src="image/29.jpg" alt="Bìa">
+                    <img src="image/3.jpg" alt="Bìa">
                     <div class="cover-title">Gửi Thiên Thần 💖</div>
                 </div>
                 <div class="back letter-page">
@@ -84,7 +84,7 @@
             </div>
 
             <div class="page" id="p3" onclick="flipPage(3)">
-                <div class="front"><img src="image/2.jpg" alt="Ảnh 3"></div>
+                <div class="front"><img src="image/6.jpg" alt="Ảnh 3"></div>
                 <div class="back letter-page">
                     <div class="letter-content">
                         <h3>Xin lỗi bé 🥺</h3>
@@ -94,26 +94,54 @@
             </div>
 
             <div class="page" id="p4" onclick="flipPage(4)">
-                <div class="front"><img src="image/4.jpg" alt="Ảnh cuối"></div>
+                <div class="front">
+                    <img src="image/4.jpg" alt="Ảnh cuối">
+                </div>
                 <div class="back cover">
-                    <h3>Vẫn chưa hết đâu! 😍</h3>
-                    <button class="next-btn" onclick="showFinalSurprise(event)">Xem điều bất ngờ ➔</button>
+                    <img src="image/19.jpg" alt="Ảnh nền mặt cuối">
+            
+                    <button class="next-btn" onclick="showFinalSurprise(event); window.location.href='heart.html';">Còn cái cúii nè beiu ơii ➔</button>
                 </div>
             </div>
 
         </div>
-        <p class="guide">Chạm vào trang sách để lật...</p>
+        <p class="guide">Em chạm ảnh để xem tiếp nhaaa</p>
     </div>
 </div>
 
-<div id="final-surprise-screen" class="section hidden">
+<div id="final-surprise-screen" class="section hidden"
+    style="position: relative; width: 100vw; height: 100vh; overflow: hidden; background-color: #000;">
     <div id="bg-heart-layer"></div>
 
     <div id="photo-runner-container"></div>
 
-    <!-- <div class="final-overlay">
-        <h2 class="final-text">Yêu Em Rất Nhiều! 💖</h2>
-    </div> -->
+    <div id="final-birthday-text" style="
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 99;
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+            opacity: 0;
+            display: none;
+            transition: opacity 1.5s ease-in-out;
+            pointer-events: none;
+        ">
+        <h1 style="
+                color: #fff;
+                font-size: 2.2rem;
+                font-weight: bold;
+                line-height: 1.6;
+                text-shadow: 0 0 10px rgba(255, 71, 126, 0.8), 0 0 20px rgba(255, 71, 126, 0.5);
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+            ">
+             Mong là em thích món quà bé xíu nì<br> 
+            <span style="font-size: 1.8rem; color: #ff477e;">Yêu em ❤️</span>
+        </h1>
+    </div>
 </div>
 
 
