@@ -105,14 +105,20 @@ function startListening() {
     const extinguishCandle = (stream) => {
         if (window.isBlown) return; 
         window.isBlown = true;
-        // phát nhạc nền khi nến tắt
+        
+        // 🌟 NƠI THAY ĐỔI: FIX LỖI ÉP IPHONE / ĐIỆN THOẠI PHẢI PHÁT NHẠC
         const bgMusic = document.getElementById('bg-music');
         const volumeSlider = document.getElementById('volume-slider');
 
         if (bgMusic) {
-            // Đặt âm lượng ban đầu lúc vừa thổi nến xong là 70% (cho đỡ giật mình)
-            bgMusic.volume = 0.5; 
-            bgMusic.play().catch(e => console.log("Chưa phát được nhạc do trình duyệt: ", e));
+            // Mẹo cực độc cho iOS/Safari: Tải lại cấu trúc âm thanh một nhịp trước khi chạy
+            bgMusic.load(); 
+            bgMusic.volume = 0.5; // Giữ nguyên mức âm lượng 50% như mày muốn
+            
+            // Ép trình duyệt kích hoạt phát bài hát ngay lập tức khi có hành động thổi/click
+            bgMusic.play().catch(e => {
+                console.log("Lỗi ép phát nhạc trên thiết bị di động: ", e);
+            });
 
             // Lắng nghe sự kiện kéo thanh trượt để thay đổi âm lượng trực tiếp
             if (volumeSlider) {
@@ -129,10 +135,15 @@ function startListening() {
         const nextBtn = document.getElementById('btn-to-book');
         if (nextBtn) nextBtn.classList.remove('hidden'); // Hiện nút bấm chuyển trang
         
+        // 🌟 NƠI THAY ĐỔI QUAN TRỌNG NHẤT: Trì hoãn việc đóng Micrô
+        // Thay vì tắt mic ngay lập tức làm sập luồng âm thanh, ta cho nó chờ 400 mili giây (0.4 giây)
+        // để trình duyệt di động mở khóa và kích hoạt bài nhạc xong xuôi rồi mới đóng mic.
         if (stream) {
-            try {
-                stream.getTracks().forEach(t => t.stop()); // Tắt mic
-            } catch(e) { console.log(e); }
+            setTimeout(() => {
+                try {
+                    stream.getTracks().forEach(t => t.stop()); // Tắt mic rôm rả sau khi nhạc đã chạy
+                } catch(e) { console.log("Lỗi dừng mic: ", e); }
+            }, 400);
         }
     };
 
@@ -196,7 +207,7 @@ function startListening() {
 
 // ==========================================
 // TRANG 3: LOGIC XỬ LÝ LẬT SÁCH (4 TRANG)
-// ==========================================
+// ==========================================   
 
 // Hàm gọi khi ấn nút ở Trang 2 để chuyển sang Trang 3
 function showBook() {
