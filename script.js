@@ -147,28 +147,28 @@ function startListening() {
         }
     };
 
-    // CÁCH 1: TẮT NẾN BẰNG CLICK / CHẠM (Ưu tiên cài đặt trước để luôn luôn bấm được)
-    const applyClickEvents = (stream) => {
-        const handler = () => extinguishCandle(stream);
-        if (candle) {
-            candle.style.cursor = 'pointer';
-            candle.onclick = handler;
-        }
-        if (flame) {
-            flame.style.cursor = 'pointer';
-            flame.onclick = handler;
-        }
-    };
+    // // CÁCH 1: TẮT NẾN BẰNG CLICK / CHẠM (Ưu tiên cài đặt trước để luôn luôn bấm được)
+    // const applyClickEvents = (stream) => {
+    //     const handler = () => extinguishCandle(stream);
+    //     if (candle) {
+    //         candle.style.cursor = 'pointer';
+    //         candle.onclick = handler;
+    //     }
+    //     if (flame) {
+    //         flame.style.cursor = 'pointer';
+    //         flame.onclick = handler;
+    //     }
+    // };
 
-    // Bật tính năng click ngay lập tức
-    applyClickEvents();
+    // // Bật tính năng click ngay lập tức
+    // applyClickEvents();
 
-    // Hàm dự phòng tự tắt sau 3 giây nếu không cho dùng mic
-    const runFallback = () => {
-        setTimeout(() => {
-            if (!window.isBlown) extinguishCandle();
-        }, 30000);
-    };
+    // // Hàm dự phòng tự tắt sau 3 giây nếu không cho dùng mic
+    // const runFallback = () => {
+    //     setTimeout(() => {
+    //         if (!window.isBlown) extinguishCandle();
+    //     }, 30000);
+    // };
 
     // CÁCH 2: TẮT NẾN BẰNG CÁCH THỔI (Kiểm tra an toàn để không bị sập code trên HTTP điện thoại)
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
